@@ -15,7 +15,7 @@ public class User {
     @Column(name = "id")
     private Long id;
     @NonNull
-    @Column(name = "name")
+    @Column(name = "first_name")
     private String firstName;
     @NonNull
     @Column(name = "last_name")
