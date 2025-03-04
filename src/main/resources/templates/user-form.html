@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Форма пользователя</title>
+</head>
+
+<body>
+<h1>Форма пользователя</h1>
+<form th:action="@{/users/save}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    <label>Имя:</label>
+    <input type="text" th:field="*{firstName}" /><br/>
+    <label>Фамилия:</label>
+    <input type="text" th:field="*{lastName}" /><br/>
+    <label>Возраст:</label>
+    <input type="number" th:field="*{age}" /><br/>
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" /><br/>
+    <button type="submit">Сохранить</button>
+</form>
+<a th:href="@{/users}">К списку пользователей</a>
+</body>
+</html>
