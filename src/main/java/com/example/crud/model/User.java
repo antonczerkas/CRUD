@@ -12,10 +12,10 @@ import lombok.NonNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
     @NonNull
-    @Column(name = "first_name")
+    @Column(name = "name")
     private String firstName;
     @NonNull
     @Column(name = "last_name")

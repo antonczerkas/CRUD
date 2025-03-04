@@ -6,7 +6,6 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 
 public interface UserService {
-
     List<User> getAllUsers();
 
     User getUserById(Long id);
@@ -15,5 +14,5 @@ public interface UserService {
     void saveUser(User user);
 
     @Transactional
-    void deleteUser (Long id);
+    void deleteUser(Long id);
 }
