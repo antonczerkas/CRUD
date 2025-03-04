@@ -20,7 +20,8 @@
             <th>Фамилия</th>
             <th>Возраст</th>
             <th>Email</th>
-            <th>Действия</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -31,6 +32,8 @@
             <td th:text="${user.email}"></td>
             <td>
                 <a th:href="@{/users/edit/{id}(id=${user.id})}" class="btn btn-warning">Изменить</a>
+            </td>
+            <td>
                 <a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger">Удалить</a>
             </td>
         </tr>
