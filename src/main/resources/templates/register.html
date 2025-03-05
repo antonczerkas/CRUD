@@ -3,15 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Форма пользователя</title>
+    <title>Регистрация</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 
 <body>
 <div class="container mt-5">
-    <h1>Форма пользователя <span th:text="${user.username}"></span></h1>
-    <form th:action="@{/admin/save}" th:object="${user}" method="post">
-        <input type="hidden" th:field="*{id}"/>
+    <h1>Регистрация</h1>
+    <form th:action="@{/registration}" th:object="${user}" method="post">
         <label>Логин:</label>
         <input type="text" th:field="*{username}"/><br/>
         <label>Пароль:</label>
@@ -24,17 +23,11 @@
         <input type="number" th:field="*{age}"/><br/>
         <label>Email:</label>
         <input type="email" th:field="*{email}"/><br/>
-        <label>Роль:</label>
-        <input type="text" th:field="*{roles}"/><br/>
-        <div th:each="role : ${allRoles}">
-            <input type="checkbox" name="roleIds" th:value="${role.id}" th:checked="${user.roles.contains(role)}">
-            <label th:text="${role.name}"></label>
-        </div>
         <div class="mb-3">
         </div>
-        <button type="submit" class="btn btn-success mb-3">Сохранить</button>
+        <button type="submit" class="btn btn-success mb-3">Зарегистрироваться</button>
     </form>
-    <a th:href="@{/admin}">Панель администратора</a>
+    <a th:href="@{/login}">Войти</a>
 </div>
 </body>
 </html>

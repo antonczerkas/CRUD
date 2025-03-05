@@ -1,10 +1,9 @@
 package com.example.crud.repository;
 
-import com.example.crud.model.User;
+import com.example.crud.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+public interface RoleRepository extends JpaRepository<Role, Long> {
 }
