@@ -26,9 +26,9 @@ public class RegistrationController {
     @PostMapping("/register")
     public String registerUser(User user) {
         user.setRoles(new HashSet<>());
-        user.getRoles().add(new Role(2L, "ROLE_USER")); // Assuming 2 is the ID for ROLE_USER
+        user.getRoles().add(new Role(2L, "ROLE_USER"));
         userService.saveUser(user);
         return "redirect:/login";
     }
-    //роверка уникальности логина
+    //проверка уникальности логина
 }

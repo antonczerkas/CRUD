@@ -1,10 +1,10 @@
 package com.example.crud.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,22 +21,35 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @NonNull
+
+    @NotBlank(message = "Имя не может быть пустым")
+    @Size(min = 2, max = 50, message = "Имя должно быть от 2 до 50 символов")
     @Column(name = "first_name")
     private String firstName;
-    @NonNull
+
+    @NotBlank(message = "Фамилия не может быть пустой")
+    @Size(min = 2, max = 50, message = "Фамилия должна быть от 2 до 50 символов")
     @Column(name = "last_name")
     private String lastName;
-    @NonNull
+
+    @NotNull(message = "Возраст не может быть пустым")
+    @Min(value = 0, message = "Возраст не может быть отрицательным")
+    @Max(value = 150, message = "Некорректный возраст")
     @Column(name = "age")
     private Integer age;
-    @NonNull
+
+    @NotBlank(message = "Email не может быть пустым")
+    @Email(message = "Некорректный email")
     @Column(name = "email")
     private String email;
-    @NonNull
+
+    @NotBlank(message = "Логин не может быть пустым")
+    @Size(min = 3, max = 50, message = "Логин должен быть от 3 до 50 символов")
     @Column(name = "username")
     private String username;
-    @NonNull
+
+    @NotBlank(message = "Пароль не может быть пустым")
+    @Size(min = 6, message = "Пароль должен быть не менее 6 символов")
     @Column(name = "password")
     private String password;
 

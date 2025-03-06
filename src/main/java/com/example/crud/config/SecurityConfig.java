@@ -1,6 +1,5 @@
 package com.example.crud.config;
 
-import com.example.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +12,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Autowired
-    private UserService userService;
-
     @Autowired
     private AuthenticationSuccessHandler successHandler;
 
