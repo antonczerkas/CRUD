@@ -1,15 +1,13 @@
 package com.example.crud.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Data
 @NoArgsConstructor
+@RequiredArgsConstructor
 @AllArgsConstructor
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
@@ -18,7 +16,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "role_id")
     private Long id;
     @NonNull
-    @Column(name = "role", unique = true, nullable = false)
+    @Column(name = "role")
     private String name;
 
     @Override

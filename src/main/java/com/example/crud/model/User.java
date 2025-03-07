@@ -1,7 +1,6 @@
 package com.example.crud.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +11,6 @@ import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
@@ -21,46 +19,48 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @NotBlank(message = "Имя не может быть пустым")
-    @Size(min = 2, max = 50, message = "Имя должно быть от 2 до 50 символов")
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String firstName;
 
-    @NotBlank(message = "Фамилия не может быть пустой")
-    @Size(min = 2, max = 50, message = "Фамилия должна быть от 2 до 50 символов")
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @NotNull(message = "Возраст не может быть пустым")
-    @Min(value = 0, message = "Возраст не может быть отрицательным")
-    @Max(value = 150, message = "Некорректный возраст")
-    @Column(name = "age", nullable = false)
+    @Column(name = "age")
     private Integer age;
 
-    @NotBlank(message = "Email не может быть пустым")
-    @Email(message = "Некорректный email")
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email")
     private String email;
 
-    @NotBlank(message = "Логин не может быть пустым")
-    @Size(min = 3, max = 50, message = "Логин должен быть от 3 до 50 символов")
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true)
     private String username;
 
-    @NotBlank(message = "Пароль не может быть пустым")
-    @Size(min = 6, message = "Пароль должен быть не менее 6 символов")
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Column
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "userid"),
+            inverseJoinColumns = @JoinColumn(name = "userroleid")
     )
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Set<Role> roles = new HashSet<>();;
+    private Set<Role> roles;
+
+    public User() {
+        roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+    }
+
+    public User(String firstName, String lastName, Integer age, String email, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -85,5 +85,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+    @Override
+    public String getPassword() {
+        return password;
+    }
+    @Override
+    public String toString() {
+        return "User";
     }
 }

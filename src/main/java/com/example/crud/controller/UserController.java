@@ -1,8 +1,7 @@
 package com.example.crud.controller;
 
-import com.example.crud.model.Role;
 import com.example.crud.model.User;
-import com.example.crud.service.UserService;
+import com.example.crud.service.UserServiceImp;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,12 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-
 @Controller
 public class UserController {
     @Autowired
-    private UserService userService;
+    private UserServiceImp userService;
 
     @GetMapping("/")
     public String getHomePage() {
@@ -34,20 +31,18 @@ public class UserController {
         return "register";
     }
 
-    @PostMapping("/register")
-    public String registerUser(@Valid User user, BindingResult result, Model model) {
+    @PostMapping("/register/new")
+    public String registerUser(@Valid User user, BindingResult result) {
         if (result.hasErrors()) {
             return "register";
         }
-        user.setRoles(new HashSet<>());
-        user.getRoles().add(new Role(2L, "ROLE_USER"));
         userService.saveUser(user);
         return "redirect:/login";
     }
 
     @GetMapping("/user")
     public String getUserById(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("users", user);
+        model.addAttribute("users", userService.loadUserByUsername(user.getUsername()));
         return "user";
     }
 
@@ -78,7 +73,7 @@ public class UserController {
         return "user-form";
     }
 
-    @PostMapping("/admin/delete/{id}")
+    @GetMapping("/admin/delete/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";

@@ -10,7 +10,7 @@
 <body>
 <div class="container mt-5">
     <h1>Регистрация</h1>
-    <form th:action="@{/registration}" th:object="${user}" method="post">
+    <form th:action="@{/register/new}" th:object="${user}" method="post">
         <label>Логин:</label>
         <input type="text" th:field="*{username}"/><br/>
         <label>Пароль:</label>
