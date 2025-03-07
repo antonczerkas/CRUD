@@ -15,7 +15,7 @@
         <label>Логин:</label>
         <input type="text" th:field="*{username}"/><br/>
         <label>Пароль:</label>
-        <input type="password" th:field="*{password}"/><br/>
+        <input type="text" th:field="*{password}"/><br/>
         <label>Имя:</label>
         <input type="text" th:field="*{firstName}"/><br/>
         <label>Фамилия:</label>
@@ -24,12 +24,10 @@
         <input type="number" th:field="*{age}"/><br/>
         <label>Email:</label>
         <input type="email" th:field="*{email}"/><br/>
-        <label>Роль:</label>
-        <input type="text" th:field="*{roles}"/><br/>
-        <div th:each="role : ${allRoles}">
-            <input type="checkbox" name="roleIds" th:value="${role.id}" th:checked="${user.roles.contains(role)}">
-            <label th:text="${role.name}"></label>
-        </div>
+        <label>Роли:</label><br/>
+        <input type="checkbox" name="roles" value="ROLE_ADMIN" th:checked="${#lists.contains(user.roles, 'ROLE_ADMIN')}"/> Администратор <br/>
+        <input type="checkbox" name="roles" value="ROLE_USER" th:checked="${#lists.contains(user.roles, 'ROLE_USER')}"/> Пользователь <br/>
+
         <div class="mb-3">
         </div>
         <button type="submit" class="btn btn-success mb-3">Сохранить</button>
