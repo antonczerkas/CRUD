@@ -35,10 +35,37 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        User previousUser = optionalUser.get();
-        user.setPassword(passwordEncoder.encode(previousUser.getPassword()));
+        if (user.getId() == 0) {
+            if (!isNewUserValid(user)) {
+                return;
+            }
+        } else {
+            changeUser(user);
+            return;
+        }
         userRepository.save(user);
+    }
+
+    public void changeUser(User user) {
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        User previousUser = optionalUser.get();
+        user.setPassword(previousUser.getPassword());
+        userRepository.save(user);
+    }
+
+    private boolean isNewUserValid(User user) {
+        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+        if (optionalUser.isPresent()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        optionalUser = userRepository.findByName(user.getName());
+        if (optionalUser.isPresent()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return true;
     }
 
     @Override

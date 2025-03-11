@@ -66,7 +66,7 @@ $(document).ready(function () {
             }
             saveUser(object);
         } else {
-            deleteStudent($("#modal-input-id").val());
+            deleteUser($("#modal-input-id").val());
         }
     });
 });
@@ -99,10 +99,10 @@ function parseJsonUserForAdmin(user) {
         tr.push(user.roles[i].role.replace("ROLE_", " "))
     }
     tr.push("</td>");
-    tr.push('<td> <input class=\"btn border-0 text-white bg-warning\" type=\"button" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editStudent('
+    tr.push('<td> <input class=\"btn border-0 text-white bg-warning\" type=\"button" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('
         + user.id
         + ');" value="Изменить"></td>');
-    tr.push('<td> <input class=\"btn border-0 text-white bg-danger\" type=\"button" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="deleteStudentButton('
+    tr.push('<td> <input class=\"btn border-0 text-white bg-danger\" type=\"button" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="deleteUserButton('
         + user.id
         + ');" value="Удалить"></td>');
     tr.push("</tr>");
@@ -118,7 +118,7 @@ function parseAllUsers() {
     });
 }
 
-function editStudent(id) {
+function editUser(id) {
     $.getJSON("admin/user/" + id, function (user) {
         $('#modal-h2').text("Форма пользователя");
         $("#modal-input-id").val(user.id);
@@ -130,7 +130,7 @@ function editStudent(id) {
     });
 }
 
-function deleteStudentButton(id) {
+function deleteUserButton(id) {
     $.getJSON("admin/user/" + id, function (user) {
         $('#modal-h2').text("Delete User");
         $("#modal-input-id").val(user.id);
@@ -142,7 +142,7 @@ function deleteStudentButton(id) {
     });
 }
 
-function deleteStudent(id) {
+function deleteUser(id) {
     $.ajax({
         url: "admin/user/" + id,
         type: 'DELETE',
