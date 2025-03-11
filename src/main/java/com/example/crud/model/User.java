@@ -17,7 +17,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long id;
+    private long id;
 
     @Column(name = "name", unique = true)
     private String name;
@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "age")
-    private Integer age;
+    private int age;
 
     @Column
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
