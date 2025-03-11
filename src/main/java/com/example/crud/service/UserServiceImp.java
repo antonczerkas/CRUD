@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,19 +35,30 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     @Transactional
     public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Optional<User> optionalUser = userRepository.findById(user.getId());
+        User previousUser = optionalUser.get();
+        user.setPassword(passwordEncoder.encode(previousUser.getPassword()));
         userRepository.save(user);
     }
 
     @Override
     @Transactional
-    public void deleteUser (Long id) {
+    public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username)
+        return userRepository.findByName(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
+
+    public User findUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.get();
+    }
+
+    public User getUserByName(String name) {
+        return userRepository.findByName(name).get();
     }
 }

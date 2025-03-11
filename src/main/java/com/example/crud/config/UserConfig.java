@@ -16,15 +16,15 @@ public class UserConfig {
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository) {
         return args -> {
-            User user1 = new User("Anton", "Cherkas", 25, "sadwalther@gmail.com", "qwe", "qwe123");
+            User user1 = new User("qwe", "sadwalther@gmail.com", 25, "qwe");
             user1.setRoles(Set.of(new Role("ROLE_USER"), new Role("ROLE_ADMIN")));
-            User user2 = new User("A", "Sd", 25, "asd@gmail.com", "asd", "asd123");
+            User user2 = new User("asd", "asd@gmail.com", 25, "asd");
             user2.setRoles(Set.of(new Role("ROLE_USER")));
-            User user3 = new User("Z", "Xc", 25, "zxc@gmail.com", "zxc", "zxc123");
+            User user3 = new User("zxc", "zxc@gmail.com", 25, "zxc");
             user3.setRoles(Set.of(new Role("ROLE_USER")));
-            User user4 = new User("R", "Ty", 25, "rty@gmail.com", "rty", "rty123");
+            User user4 = new User("rty", "rty@gmail.com", 25, "rty");
             user4.setRoles(Set.of(new Role("ROLE_USER")));
-            User user5 = new User("D", "Fg", 25, "fgh@gmail.com", "fgh", "fgh123");
+            User user5 = new User("fgh", "fgh@gmail.com", 25, "fgh");
             user5.setRoles(Set.of(new Role("ROLE_USER")));
             userRepository.saveAll(List.of(user1, user2, user3, user4, user5));
         };

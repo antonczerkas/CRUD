@@ -19,23 +19,17 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "name", unique = true)
+    private String name;
 
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "age")
-    private Integer age;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "email")
     private String email;
 
-    @Column(name = "username", unique = true)
-    private String username;
-
-    @Column(name = "password")
-    private String password;
+    @Column(name = "age")
+    private Integer age;
 
     @Column
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -51,12 +45,10 @@ public class User implements UserDetails {
         roles.add(new Role("ROLE_USER"));
     }
 
-    public User(String firstName, String lastName, Integer age, String email, String username, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.age = age;
+    public User(String name, String email, int age, String password) {
+        this.name = name;
         this.email = email;
-        this.username = username;
+        this.age = age;
         this.password = password;
         roles = new HashSet<>();
         roles.add(new Role("ROLE_USER"));
@@ -89,14 +81,21 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
+
     @Override
     public String getPassword() {
         return password;
     }
+
     @Override
     public String toString() {
-        return "User";
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", age=" + age +
+                '}';
     }
 }

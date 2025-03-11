@@ -17,15 +17,15 @@ public class Role implements GrantedAuthority {
     private Long id;
     @NonNull
     @Column(name = "role")
-    private String name;
+    private String role;
 
     @Override
     public String getAuthority() {
-        return name;
+        return role;
     }
 
     @Override
     public String toString() {
-        return name;
+        return role;
     }
 }
