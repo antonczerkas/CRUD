@@ -28,11 +28,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    @Override
     @Transactional
     public void saveUser(User user) {
         if (user.getId() == 0) {
@@ -76,8 +71,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+        return userRepository.findByName(username).get();
     }
 
     public User findUserById(Long id) {
