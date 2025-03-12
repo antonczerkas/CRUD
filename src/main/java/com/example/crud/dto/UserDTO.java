@@ -1,5 +1,6 @@
 package com.example.crud.dto;
 
+import com.example.crud.model.Role;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,9 +17,6 @@ public class UserDTO {
     @NotBlank(message = "Имя не может быть пустым")
     @Size(min = 2, max = 20, message = "Логин должен быть от 2 до 20 символов")
     private String name;
-
-    //@NotBlank(message = "Пароль не может быть пустым")
-    //@Size(min = 2, max = 20, message = "Пароль должен быть от 2 до 20 символов")
     private String password;
 
     @NotBlank(message = "Email не может быть пустым")
@@ -31,5 +29,5 @@ public class UserDTO {
     private int age;
 
     @NotEmpty(message = "Роли не могут быть пустыми")
-    private Set<String> roles;
+    private Set<Role> roles;
 }

@@ -48,20 +48,10 @@ public class UserController {
     }
 
     @GetMapping(path = "user")
-    public User getCurrUser(Authentication authentication) {
-        return userService.getUserByName(authentication.getName());
-    }/*
-    @GetMapping(path = "user")
     public UserDTO getCurrUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            throw new RuntimeException("Пользователь не аутентифицирован");
-        }
         User user = userService.getUserByName(authentication.getName());
-        if (user == null) {
-            throw new RuntimeException("Пользователь не найден");
-        }
         return UserMapper.toDTO(user);
-    }*/
+    }
 
     @GetMapping(path = "user/page")
     public ModelAndView getUserPage() {
@@ -71,19 +61,15 @@ public class UserController {
     }
 
     @GetMapping("admin/users")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }/*
-    @GetMapping("admin/users")
     public List<UserDTO> getAllUsers() {
         List<User> users = userService.getAllUsers();
         if (users.isEmpty()) {
             throw new RuntimeException("Список пользователей пуст");
         }
         return users.stream()
-                .map(UserMapper::toDTO) // Преобразуем каждый User в UserDTO
+                .map(UserMapper::toDTO)
                 .collect(Collectors.toList());
-    }*/
+    }
 
     @DeleteMapping("admin/user/{id}")
     public String deleteUser(@PathVariable("id") Long id) {

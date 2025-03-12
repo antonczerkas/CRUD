@@ -1,10 +1,6 @@
 package com.example.crud.dto;
 
 import com.example.crud.model.User;
-import com.example.crud.model.Role;
-
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserMapper {
 
@@ -15,13 +11,7 @@ public class UserMapper {
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setAge(user.getAge());
-        if (user.getRoles() != null) {
-            userDTO.setRoles(user.getRoles().stream()
-                    .map(Role::getRole)
-                    .collect(Collectors.toSet()));
-        } else {
-            userDTO.setRoles(Set.of());
-        }
+        userDTO.setRoles(user.getRoles());
         return userDTO;
     }
 
@@ -32,13 +22,7 @@ public class UserMapper {
         user.setPassword(userDTO.getPassword());
         user.setEmail(userDTO.getEmail());
         user.setAge(userDTO.getAge());
-        if (userDTO.getRoles() != null) {
-            user.setRoles(userDTO.getRoles().stream()
-                    .map(Role::new)
-                    .collect(Collectors.toSet()));
-        } else {
-            user.setRoles(Set.of());
-        }
+        user.setRoles(userDTO.getRoles());
         return user;
     }
 }
