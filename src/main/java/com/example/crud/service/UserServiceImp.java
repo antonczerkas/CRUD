@@ -82,6 +82,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Transactional
     public User getUserByName(String name) {
-        return userRepository.findByName(name).get();
+        return userRepository.findByName(name).orElseThrow(() -> new RuntimeException("Пользователь не найден"));
     }
 }

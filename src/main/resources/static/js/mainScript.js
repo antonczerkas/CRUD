@@ -3,11 +3,11 @@ $.getJSON("user", function (data) {
     $("#user-name-span").append(data.name);
 
     for (let i = 0; i < data.roles.length; i++) {
-        if (data.roles[i].role === "ROLE_ADMIN") {
+        if (data.roles[i] === "ROLE_ADMIN") {
             $("#admin-button-div").removeAttr("hidden");
             isUserAdmin = true;
         }
-        $("#user-roles-span").append(data.roles[i].role.replace("ROLE_", " "));
+        $("#user-roles-span").append(data.roles[i].replace("ROLE_", " "));
     }
 
     if (!isUserAdmin) {
@@ -80,7 +80,7 @@ function parseCurrJsonUser(user) {
     tr.push("<td>" + user.age + "</td>");
     tr.push("<td>");
     for (let i = 0; i < user.roles.length; i++) {
-        tr.push(user.roles[i].role.replace("ROLE_", " "))
+        tr.push(user.roles[i].replace("ROLE_", " "));
     }
     tr.push("</td>");
     tr.push("</tr>");
@@ -96,7 +96,7 @@ function parseJsonUserForAdmin(user) {
     tr.push("<td>" + user.age + "</td>");
     tr.push("<td>");
     for (let i = 0; i < user.roles.length; i++) {
-        tr.push(user.roles[i].role.replace("ROLE_", " "))
+        tr.push(user.roles[i].replace("ROLE_", " "));
     }
     tr.push("</td>");
     tr.push('<td> <input class=\"btn border-0 text-white bg-warning\" type=\"button" data-bs-toggle="modal" data-bs-target="#edit-modal" onclick="editUser('

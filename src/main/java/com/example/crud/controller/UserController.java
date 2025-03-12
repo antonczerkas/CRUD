@@ -49,7 +49,14 @@ public class UserController {
 
     @GetMapping(path = "user")
     public UserDTO getCurrUser(Authentication authentication) {
-        User user = userService.getUserByName(authentication.getName());
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("Пользователь не аутентифицирован");
+        }
+        String username = authentication.getName();
+        User user = userService.getUserByName(username);
+        if (user == null) {
+            throw new RuntimeException("Пользователь не найден");
+        }
         return UserMapper.toDTO(user);
     }
 

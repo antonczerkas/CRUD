@@ -1,6 +1,5 @@
 package com.example.crud.dto;
 
-import com.example.crud.model.Role;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,5 +28,5 @@ public class UserDTO {
     private int age;
 
     @NotEmpty(message = "Роли не могут быть пустыми")
-    private Set<Role> roles;
+    private Set<String> roles;
 }
