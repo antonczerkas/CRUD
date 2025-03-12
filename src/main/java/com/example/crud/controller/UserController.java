@@ -46,11 +46,11 @@ public class UserController {
         modelAndView.setViewName("login");
         return modelAndView;
     }
-/*
+
     @GetMapping(path = "user")
     public User getCurrUser(Authentication authentication) {
         return userService.getUserByName(authentication.getName());
-    }*/
+    }/*
     @GetMapping(path = "user")
     public UserDTO getCurrUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -61,7 +61,7 @@ public class UserController {
             throw new RuntimeException("Пользователь не найден");
         }
         return UserMapper.toDTO(user);
-    }
+    }*/
 
     @GetMapping(path = "user/page")
     public ModelAndView getUserPage() {
@@ -69,11 +69,11 @@ public class UserController {
         modelAndView.setViewName("parts/user_page");
         return modelAndView;
     }
-/*
+
     @GetMapping("admin/users")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
-    }*/
+    }/*
     @GetMapping("admin/users")
     public List<UserDTO> getAllUsers() {
         List<User> users = userService.getAllUsers();
@@ -83,7 +83,7 @@ public class UserController {
         return users.stream()
                 .map(UserMapper::toDTO) // Преобразуем каждый User в UserDTO
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @DeleteMapping("admin/user/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
