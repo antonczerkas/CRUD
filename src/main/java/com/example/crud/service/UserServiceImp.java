@@ -23,6 +23,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -79,6 +80,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return optionalUser.get();
     }
 
+    @Transactional
     public User getUserByName(String name) {
         return userRepository.findByName(name).get();
     }
