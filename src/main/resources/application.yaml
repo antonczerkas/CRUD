@@ -1,11 +1,9 @@
 spring:
-  #Datasource settings
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: root
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
-  #Hibernate settings
   jpa:
     hibernate:
       ddl-auto: create
