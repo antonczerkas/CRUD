@@ -37,7 +37,7 @@ jobs:
         with:
           file: ./Dockerfile
           push: true
-          tags: sadwalther/crud::latest
+          tags: sadwalther/crud:latest
 
   deploy:
     name: Deploy
