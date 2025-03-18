@@ -35,6 +35,12 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
+      - name: List target directory
+        run: ls -l target
+
+      - name: Clean Docker cache
+        run: docker builder prune --all --force
+
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
