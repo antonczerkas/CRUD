@@ -53,12 +53,12 @@ jobs:
           script: |
             cd /home/${{ secrets.REMOTE_USER }}/app/
             
+            echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} > .env
+            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
+            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             echo SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} >> .env
             echo SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} >> .env
             echo SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} >> .env
-            echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
-            echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env
-            echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
             
             sudo -S docker stop app-app-1
             sudo -S docker rm app-app-1
