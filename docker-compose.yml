@@ -1,6 +1,5 @@
 services:
   app:
-    build: .
     image: sadwalther/crud:latest
     ports:
       - "8081:8080"
