@@ -77,7 +77,6 @@ jobs:
             echo SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} >> .env
             echo SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} >> .env
             
-            sudo -S docker stop app-app-1
-            sudo -S docker rm app-app-1
-            sudo -S docker rmi sadwalther/crud:latest    
-            sudo -S docker-compose up --force-recreate -d
+            docker-compose down
+            docker-compose up --force-recreate -d
+            docker image prune -f
