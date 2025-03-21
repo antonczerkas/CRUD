@@ -6,10 +6,10 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate.format_sql: true
-    show-sql: true
+    show-sql: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yml
     enabled: true

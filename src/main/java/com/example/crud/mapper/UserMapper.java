@@ -1,5 +1,6 @@
-package com.example.crud.dto;
+package com.example.crud.mapper;
 
+import com.example.crud.dto.UserDTO;
 import com.example.crud.model.User;
 import com.example.crud.model.Role;
 

@@ -55,8 +55,9 @@ $(document).ready(function () {
             let object = {};
             object.id = $("#modal-input-id").val();
             object.name = $("#modal-input-name").val();
-            object.age = $("#modal-input-age").val();
             object.email = $("#modal-input-email").val();
+            object.age = $("#modal-input-age").val();
+            object.password = $("#modal-input-password").val();
             object.roles = [];
             if ($("#modal-input-role-user").is(":checked")) {
                 object.roles.push("ROLE_USER");
@@ -78,6 +79,7 @@ function parseCurrJsonUser(user) {
     tr.push("<td>" + user.name + "</td>");
     tr.push("<td>" + user.email + "</td>");
     tr.push("<td>" + user.age + "</td>");
+    tr.push("<td>" + user.password + "</td>");
     tr.push("<td>");
     for (let i = 0; i < user.roles.length; i++) {
         tr.push(user.roles[i].replace("ROLE_", " "));
@@ -125,19 +127,39 @@ function editUser(id) {
         $("#modal-input-name").val(user.name).prop('disabled', false);
         $("#modal-input-email").val(user.email).prop('disabled', false);
         $("#modal-input-age").val(user.age).prop('disabled', false);
-        $("#modal-input-role").prop('disabled', false);
+        $("#modal-input-password").val(user.password).prop('disabled', false);
+
+        // Сбрасываем состояние чекбоксов
+        $("#modal-input-role-user, #modal-input-role-admin")
+            .prop('checked', false)
+            .prop('disabled', false);
+
+        // Устанавливаем состояние чекбоксов на основе ролей пользователя
+        for (let i = 0; i < user.roles.length; i++) {
+            if (user.roles[i] === "ROLE_USER") {
+                $("#modal-input-role-user").prop('checked', true);
+            }
+            if (user.roles[i] === "ROLE_ADMIN") {
+                $("#modal-input-role-admin").prop('checked', true);
+            }
+        }
+
         $("#modal-edit-button").text("Сохранить").addClass("btn-primary").removeClass("btn-danger");
     });
 }
 
 function deleteUserButton(id) {
     $.getJSON("admin/user/" + id, function (user) {
-        $('#modal-h2').text("Delete User");
+        $('#modal-h2').text("Форма пользователя");
         $("#modal-input-id").val(user.id);
         $("#modal-input-name").val(user.name).prop('disabled', true);
         $("#modal-input-email").val(user.email).prop('disabled', true);
         $("#modal-input-age").val(user.age).prop('disabled', true);
+        $("#modal-input-password").val(user.password).prop('disabled', true);
         $("#modal-input-role").prop('disabled', true);
+        $("#modal-input-role-user, #modal-input-role-admin")
+            .prop('checked', false)
+            .prop('disabled', true);
         $("#modal-edit-button").text("Удалить").removeClass("btn-primary").addClass("btn-danger");
     });
 }
