@@ -16,6 +16,9 @@ public class UserDTO {
     @NotBlank(message = "Имя не может быть пустым")
     @Size(min = 2, max = 20, message = "Логин должен быть от 2 до 20 символов")
     private String name;
+
+    @NotBlank(message = "Пароль не может быть пустым")
+    @Size(min = 3, max = 10, message = "Пароль должен быть от 3 до 10 символов")
     private String password;
 
     @NotBlank(message = "Email не может быть пустым")

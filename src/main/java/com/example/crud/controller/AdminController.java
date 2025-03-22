@@ -13,13 +13,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-//@RequestMapping("/api/admin")
 public class AdminController {
 
     @Autowired
     private UserServiceImp userService;
 
-    //@GetMapping("/users")
     @GetMapping("admin/users")
     public List<UserDTO> getAllUsers() {
         log.info("Запрос списка всех пользователей");
@@ -33,7 +31,6 @@ public class AdminController {
                 .collect(Collectors.toList());
     }
 
-    //@DeleteMapping("/user/{id}")
     @DeleteMapping("admin/user/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         log.info("Попытка удаления пользователя с id: {}", id);
@@ -42,7 +39,6 @@ public class AdminController {
         return "deleted";
     }
 
-    //@GetMapping("/user/{id}")
     @GetMapping(path = "admin/user/{id}")
     public UserDTO editUserPage(@PathVariable("id") Long id) {
         log.debug("Запрос данных пользователя для редактирования, id: {}", id);

@@ -129,12 +129,10 @@ function editUser(id) {
         $("#modal-input-age").val(user.age).prop('disabled', false);
         $("#modal-input-password").val(user.password).prop('disabled', false);
 
-        // Сбрасываем состояние чекбоксов
         $("#modal-input-role-user, #modal-input-role-admin")
             .prop('checked', false)
             .prop('disabled', false);
 
-        // Устанавливаем состояние чекбоксов на основе ролей пользователя
         for (let i = 0; i < user.roles.length; i++) {
             if (user.roles[i] === "ROLE_USER") {
                 $("#modal-input-role-user").prop('checked', true);
@@ -170,12 +168,35 @@ function deleteUser(id) {
         type: 'DELETE',
         success: function () {
             parseAllUsers();
+        },
+        error: function (xhr, status, error) {
+            console.error("Ошибка при удалении пользователя: ", error);
         }
     });
 }
 
 function saveUser(object) {
-    $.post("admin/user", object, function () {
-        parseAllUsers();
+    $.ajax({
+        url: "admin/user",
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(object),
+        success: function (response) {
+            parseAllUsers();
+        },
+        error: function (xhr, status, error) {
+            if (xhr.status === 400) {
+                let errors = xhr.responseJSON;
+                let errorMessage = "Ошибки валидации:\n";
+                for (let field in errors) {
+                    errorMessage += `${field}: ${errors[field]}\n`;
+                }
+                console.error("Ошибка при сохранении пользователя: ", errorMessage);
+                alert(errorMessage);
+            } else {
+                console.error("Ошибка при сохранении пользователя: ", error);
+                alert("Ошибка при сохранении пользователя: " + error);
+            }
+        }
     });
 }

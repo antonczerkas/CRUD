@@ -50,14 +50,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
         User previousUser = optionalUser.get();
 
         if (user.getPassword() != null && !user.getPassword().isEmpty()) {
-            //log.info("Пароль изменен, кодируем новый пароль");
             user.setPassword(user.getPassword());
         } else {
-            //log.info("Пароль не изменен, оставляем старый пароль");
             user.setPassword(previousUser.getPassword());
         }
         userRepository.save(user);
-        //log.info("Пользователь с id {} успешно обновлен", user.getId());
     }
 
     private boolean isNewUserValid(User user) {

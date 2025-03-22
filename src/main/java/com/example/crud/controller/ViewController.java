@@ -22,7 +22,6 @@ public class ViewController {
     public ModelAndView loginPage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
-        //log.info("Запрос на страницу входа");
         return modelAndView;
     }
 
@@ -31,7 +30,6 @@ public class ViewController {
         logoutHandler.logout(request, response, authentication);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
-        //log.info("Пользователь {} вышел из системы", authentication.getName());
         return modelAndView;
     }
 
