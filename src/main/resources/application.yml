@@ -13,3 +13,7 @@ spring:
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yml
     enabled: true
+telegram:
+  bot:
+    username: RuVDSNotifierBot
+    token: ${TELEGRAM_BOT_TOKEN}

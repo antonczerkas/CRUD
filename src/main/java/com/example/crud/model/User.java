@@ -31,6 +31,18 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "telegram_chat_id")
+    private Long telegramChatId;
+
+    @Column(name = "ruvds_api_token")
+    private String ruvdsApiToken;
+
+    @Column(name = "min_balance_threshold")
+    private Double minBalanceThreshold;
+
+    @Column(name = "notification_enabled")
+    private Boolean notificationEnabled;
+
     @Column
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -52,6 +64,19 @@ public class User implements UserDetails {
         this.password = password;
         roles = new HashSet<>();
         roles.add(new Role("ROLE_USER"));
+    }
+
+    public User(String name, String email, int age, String password, String ruvdsApiToken, Long telegramChatId, Double minBalanceThreshold, Boolean notificationEnabled) {
+        this.name = name;
+        this.email = email;
+        this.age = age;
+        this.password = password;
+        roles = new HashSet<>();
+        roles.add(new Role("ROLE_USER"));
+        this.ruvdsApiToken = ruvdsApiToken;
+        this.telegramChatId = telegramChatId;
+        this.minBalanceThreshold = minBalanceThreshold;
+        this.notificationEnabled = notificationEnabled;
     }
 
     @Override
@@ -94,8 +119,14 @@ public class User implements UserDetails {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", age=" + age +
+                ", telegramChatId=" + telegramChatId + '\'' +
+                ", ruvdsApiToken='" + ruvdsApiToken +
+                ", minBalanceThreshold=" + minBalanceThreshold +
+                ", notificationEnabled=" + notificationEnabled +
+                ", roles=" + roles +
                 '}';
     }
 }

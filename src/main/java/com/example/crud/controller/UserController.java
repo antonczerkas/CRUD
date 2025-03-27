@@ -1,6 +1,7 @@
 package com.example.crud.controller;
 
 import com.example.crud.dto.UserDTO;
+import com.example.crud.dto.UserSettingsDTO;
 import com.example.crud.mapper.UserMapper;
 import com.example.crud.model.User;
 import com.example.crud.service.UserServiceImp;
@@ -51,5 +52,30 @@ public class UserController {
         userService.saveUser(user);
         log.debug("Выполнено добавление пользователя: {}", user.getUsername());
         return ResponseEntity.status(HttpStatus.CREATED).body(Map.of("message", "Пользователь успешно создан"));
+    }
+
+    @GetMapping("/user/settings")
+    public ResponseEntity<UserSettingsDTO> getUserSettings(Authentication authentication) {
+        User user = userService.getUserByName(authentication.getName());
+        return ResponseEntity.ok(UserMapper.toSettingsDTO(user));
+    }
+
+    @PutMapping("/user/settings")
+    public ResponseEntity<?> updateUserSettings(@Valid @RequestBody UserSettingsDTO settingsDTO,
+                                                BindingResult bindingResult,
+                                                Authentication authentication) {
+        if (bindingResult.hasErrors()) {
+            Map<String, String> errors = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(error ->
+                    errors.put(error.getField(), error.getDefaultMessage())
+            );
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        User user = userService.getUserByName(authentication.getName());
+        UserMapper.toSettingsEntity(user, settingsDTO);
+        userService.saveUser(user);
+
+        return ResponseEntity.ok().build();
     }
 }

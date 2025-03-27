@@ -30,6 +30,18 @@ public class UserDTO {
     @Max(value = 120, message = "Возраст не может быть больше 120")
     private int age;
 
+    @Min(value = 1, message = "ID чата Telegram должен быть положительным числом")
+    private Long telegramChatId;
+
+    @Size(max = 100, message = "API токен не может быть длиннее 100 символов")
+    private String ruvdsApiToken;
+
+    @DecimalMin(value = "0.0", message = "Минимальный баланс не может быть отрицательным")
+    private Double minBalanceThreshold;
+
+    @NotNull(message = "Статус уведомлений не может быть пустым")
+    private Boolean notificationEnabled;
+
     @NotEmpty(message = "Роли не могут быть пустыми")
     private Set<String> roles;
 }

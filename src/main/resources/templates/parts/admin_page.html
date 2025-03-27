@@ -51,6 +51,14 @@
                             </label>
                         </div>
                         <div class="row justify-content-center">
+                            <span class="col col-md-auto">Пароль</span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <label class="col col-md-auto">
+                                <input type="password" id="new-user-modal-input-password" required>
+                            </label>
+                        </div>
+                        <div class="row justify-content-center">
                             <span class="col col-md-auto">Email</span>
                         </div>
                         <div class="row justify-content-center">
@@ -66,19 +74,46 @@
                                 <input type="number" id="new-user-modal-input-age" required>
                             </label>
                         </div>
+
                         <div class="row justify-content-center">
-                            <span class="col col-md-auto">Пароль</span>
+                            <span class="col col-md-auto">ID чата Telegram</span>
                         </div>
                         <div class="row justify-content-center">
                             <label class="col col-md-auto">
-                                <input type="password" id="new-user-modal-input-password" required>
+                                <input type="number" id="new-user-modal-chatid" required>
                             </label>
                         </div>
                         <div class="row justify-content-center">
-                            <span class="col col-md-auto">Роли</span>
+                            <span class="col col-md-auto">API токен RuVDS</span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <label class="col col-md-auto">
+                                <input type="password" id="new-user-modal-apitoken" required>
+                            </label>
+                        </div>
+                        <div class="row justify-content-center">
+                            <span class="col col-md-auto">Минимальный баланс</span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <label class="col col-md-auto">
+                                <input type="number" id="new-user-modal-minbalance" required>
+                            </label>
+                        </div>
+                        <div class="row justify-content-center">
+                            <span class="col col-md-auto">Уведомление</span>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col col-md-auto">
+                                <input class="form-check-input" type="checkbox" id="new-user-modal-input-notification">
+                                <label class="form-check-label" for="new-user-modal-input-notification">
+                                    Включить уведомление
+                                </label>
+                            </div>
                         </div>
 
-
+                        <div class="row justify-content-center">
+                            <span class="col col-md-auto">Роли</span>
+                        </div>
                         <div class="row justify-content-center">
                             <div class="col col-md-auto">
                                 <div class="form-check">
@@ -99,14 +134,22 @@
                     <div class="modal-footer">
                         <button class="btn btn-success" id="new-user-add-button" onclick='
                         let object = {};
-                        object.password = $("#new-user-modal-input-password").val();
-                        $("#new-user-modal-input-password").val("");
                         object.name = $("#new-user-modal-input-name").val();
                         $("#new-user-modal-input-name").val("");
-                        object.age = $("#new-user-modal-input-age").val();
-                        $("#new-user-modal-input-age").val("");
+                        object.password = $("#new-user-modal-input-password").val();
+                        $("#new-user-modal-input-password").val("");
                         object.email = $("#new-user-modal-input-email").val();
                         $("#new-user-modal-input-email").val("");
+                        object.age = $("#new-user-modal-input-age").val();
+                        $("#new-user-modal-input-age").val("");
+                        object.telegramChatId = $("#new-user-modal-chatid").val();
+                        $("#new-user-modal-chatid").val("");
+                        object.ruvdsApiToken = $("#new-user-modal-apitoken").val();
+                        $("#new-user-modal-apitoken").val("");
+                        object.minBalanceThreshold = $("#new-user-modal-minbalance").val();
+                        $("#new-user-modal-minbalance").val("");
+                        object.notificationEnabled = $("#new-user-modal-input-notification").is(":checked");
+                        $("#new-user-modal-input-notification").is(":checked");
                         object.roles = [];
                         if ($("#new-user-modal-input-role-admin").is(":checked")) {
                         object.roles.push("ROLE_ADMIN");

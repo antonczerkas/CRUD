@@ -57,6 +57,19 @@ public class UserServiceImp implements UserService, UserDetailsService {
         userRepository.save(user);
     }
 
+    public void updateUserSettings(User user) {
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        // Обновляем только настройки
+        existingUser.setTelegramChatId(user.getTelegramChatId());
+        existingUser.setRuvdsApiToken(user.getRuvdsApiToken());
+        existingUser.setMinBalanceThreshold(user.getMinBalanceThreshold());
+        existingUser.setNotificationEnabled(user.getNotificationEnabled());
+
+        userRepository.save(existingUser);
+    }
+
     private boolean isNewUserValid(User user) {
         Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
         if (optionalUser.isPresent()) {

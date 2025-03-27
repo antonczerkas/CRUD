@@ -55,9 +55,13 @@ $(document).ready(function () {
             let object = {};
             object.id = $("#modal-input-id").val();
             object.name = $("#modal-input-name").val();
+            object.password = $("#modal-input-password").val();
             object.email = $("#modal-input-email").val();
             object.age = $("#modal-input-age").val();
-            object.password = $("#modal-input-password").val();
+            object.telegramChatId = $("#modal-input-chatid").val();
+            object.ruvdsApiToken = $("#modal-input-apitoken").val();
+            object.minBalanceThreshold = $("#modal-input-minbalance").val();
+            object.notificationEnabled = $("#modal-input-notification").is(":checked");
             object.roles = [];
             if ($("#modal-input-role-user").is(":checked")) {
                 object.roles.push("ROLE_USER");
@@ -72,6 +76,43 @@ $(document).ready(function () {
     });
 });
 
+// NEW
+$(document).ready(function() {
+    // Загрузка текущих настроек пользователя при открытии страницы
+    $.getJSON("user/settings", function(settings) {
+        if (settings) {
+            $("#telegramChatId").val(settings.telegramChatId || "");
+            $("#ruvdsApiToken").val(settings.ruvdsApiToken || "");
+            $("#minBalanceThreshold").val(settings.minBalanceThreshold || "");
+            $("#notificationEnabled").prop('checked', settings.notificationEnabled || false);
+        }
+    });
+
+    // Обработчик кнопки сохранения
+    $("#saveSettings").click(function() {
+        let settings = {
+            telegramChatId: $("#telegramChatId").val() ? parseInt($("#telegramChatId").val()) : null,
+            ruvdsApiToken: $("#ruvdsApiToken").val(),
+            minBalanceThreshold: $("#minBalanceThreshold").val() ? parseFloat($("#minBalanceThreshold").val()) : null,
+            notificationEnabled: $("#notificationEnabled").is(":checked")
+        };
+
+        $.ajax({
+            url: "user/settings",
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(settings),
+            success: function() {
+                alert("Настройки успешно сохранены");
+            },
+            error: function(xhr, status, error) {
+                console.error("Ошибка при сохранении настроек: ", error);
+                alert("Ошибка при сохранении настроек: " + error);
+            }
+        });
+    });
+});
+
 function parseCurrJsonUser(user) {
     let tr = [];
     tr.push("<tr>");
@@ -79,7 +120,6 @@ function parseCurrJsonUser(user) {
     tr.push("<td>" + user.name + "</td>");
     tr.push("<td>" + user.email + "</td>");
     tr.push("<td>" + user.age + "</td>");
-    tr.push("<td>" + user.password + "</td>");
     tr.push("<td>");
     for (let i = 0; i < user.roles.length; i++) {
         tr.push(user.roles[i].replace("ROLE_", " "));
@@ -87,6 +127,20 @@ function parseCurrJsonUser(user) {
     tr.push("</td>");
     tr.push("</tr>");
     $("#user-page-table-tbody").append(tr.join(''));
+
+    // Обновленные проверки полей
+    if (user.telegramChatId !== null && user.telegramChatId !== undefined) {
+        $("#telegramChatId").val(user.telegramChatId);
+    }
+    if (user.ruvdsApiToken !== null && user.ruvdsApiToken !== undefined) {
+        $("#ruvdsApiToken").val(user.ruvdsApiToken);
+    }
+    if (user.minBalanceThreshold !== null && user.minBalanceThreshold !== undefined) {
+        $("#minBalanceThreshold").val(user.minBalanceThreshold);
+    }
+    if (user.notificationEnabled !== null && user.notificationEnabled !== undefined) {
+        $("#notificationEnabled").prop('checked', user.notificationEnabled);
+    }
 }
 
 function parseJsonUserForAdmin(user) {
@@ -125,10 +179,13 @@ function editUser(id) {
         $('#modal-h2').text("Форма пользователя");
         $("#modal-input-id").val(user.id);
         $("#modal-input-name").val(user.name).prop('disabled', false);
+        $("#modal-input-password").val(user.password).prop('disabled', false);
         $("#modal-input-email").val(user.email).prop('disabled', false);
         $("#modal-input-age").val(user.age).prop('disabled', false);
-        $("#modal-input-password").val(user.password).prop('disabled', false);
-
+        $("#modal-input-chatid").val(user.telegramChatId).prop('disabled', false);
+        $("#modal-input-apitoken").val(user.ruvdsApiToken).prop('disabled', false);
+        $("#modal-input-minbalance").val(user.minBalanceThreshold).prop('disabled', false);
+        $("#modal-input-notification").prop('checked', user.notificationEnabled || false).prop('disabled', false);
         $("#modal-input-role-user, #modal-input-role-admin")
             .prop('checked', false)
             .prop('disabled', false);
@@ -151,9 +208,13 @@ function deleteUserButton(id) {
         $('#modal-h2').text("Форма пользователя");
         $("#modal-input-id").val(user.id);
         $("#modal-input-name").val(user.name).prop('disabled', true);
+        $("#modal-input-password").val(user.password).prop('disabled', true);
         $("#modal-input-email").val(user.email).prop('disabled', true);
         $("#modal-input-age").val(user.age).prop('disabled', true);
-        $("#modal-input-password").val(user.password).prop('disabled', true);
+        $("#modal-input-chatid").val(user.telegramChatId).prop('disabled', true);
+        $("#modal-input-apitoken").val(user.ruvdsApiToken).prop('disabled', true);
+        $("#modal-input-minbalance").val(user.minBalanceThreshold).prop('disabled', true);
+        $("#modal-input-notification").prop('checked', false).prop('disabled', true);
         $("#modal-input-role").prop('disabled', true);
         $("#modal-input-role-user, #modal-input-role-admin")
             .prop('checked', false)
