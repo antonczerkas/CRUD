@@ -3,19 +3,27 @@ databaseChangeLog:
       id: 004
       author: SadWalther
       changes:
-        - addColumn:
-            tableName: users
+        - createTable:
+            tableName: telegram-users
             columns:
-              - column:
-                  name: ruvds_api_token
-                  type: VARCHAR(255)
               - column:
                   name: telegram_chat_id
                   type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: ruvds_api_token
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
               - column:
                   name: min_balance_threshold
                   type: DECIMAL(10, 2)
+                  constraints:
+                    nullable: false
               - column:
                   name: notification_enabled
                   type: BOOLEAN
-                  defaultValue: true
+                  constraints:
+                    nullable: false

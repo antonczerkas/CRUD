@@ -1,4 +1,4 @@
-package com.example.crud.config;
+/*package com.example.crud.config;
 
 import com.example.crud.model.Role;
 import com.example.crud.model.User;
@@ -26,4 +26,4 @@ public class UserConfig {
             userRepository.saveAll(List.of(user1, user2, user3, user4));
         };
     }
-}
+}*/

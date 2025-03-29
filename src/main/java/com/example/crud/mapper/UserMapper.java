@@ -1,7 +1,6 @@
 package com.example.crud.mapper;
 
 import com.example.crud.dto.UserDTO;
-import com.example.crud.dto.UserSettingsDTO;
 import com.example.crud.model.User;
 import com.example.crud.model.Role;
 
@@ -50,21 +49,5 @@ public class UserMapper {
             user.setRoles(Set.of());
         }
         return user;
-    }
-
-    public static UserSettingsDTO toSettingsDTO(User user) {
-        UserSettingsDTO settingsDTO = new UserSettingsDTO();
-        settingsDTO.setTelegramChatId(user.getTelegramChatId());
-        settingsDTO.setRuvdsApiToken(user.getRuvdsApiToken());
-        settingsDTO.setMinBalanceThreshold(user.getMinBalanceThreshold());
-        settingsDTO.setNotificationEnabled(user.getNotificationEnabled());
-        return settingsDTO;
-    }
-
-    public static void toSettingsEntity(User user, UserSettingsDTO settingsDTO) {
-        user.setTelegramChatId(settingsDTO.getTelegramChatId());
-        user.setRuvdsApiToken(settingsDTO.getRuvdsApiToken());
-        user.setMinBalanceThreshold(settingsDTO.getMinBalanceThreshold());
-        user.setNotificationEnabled(settingsDTO.getNotificationEnabled());
     }
 }

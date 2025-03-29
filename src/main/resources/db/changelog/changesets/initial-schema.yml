@@ -32,7 +32,18 @@ databaseChangeLog:
               - column:
                   name: age
                   type: INT
-
+              - column:
+                  name: ruvds_api_token
+                  type: VARCHAR(255)
+              - column:
+                  name: telegram_chat_id
+                  type: BIGINT
+              - column:
+                  name: min_balance_threshold
+                  type: DECIMAL(10, 2)
+              - column:
+                  name: notification_enabled
+                  type: BOOLEAN
 
   - changeSet:
       id: 002
