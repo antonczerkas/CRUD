@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:latest
+    container_name: ruvds_bot_bd
     ports:
       - "5433:5432"
     env_file:
@@ -10,6 +11,7 @@ services:
 
   app:
     image: sadwalther/crud:latest
+    container_name: ruvds_bot
     ports:
       - "8081:8080"
     env_file:
