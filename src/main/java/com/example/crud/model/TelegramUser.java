@@ -25,4 +25,16 @@ public class TelegramUser {
 
     @Column(name = "notification_enabled")
     private Boolean notificationEnabled;
+
+    @Column(name = "last_known_balance")
+    private Double lastKnownBalance;
+
+    @Column(name = "last_balance_notification_sent")
+    private Boolean lastBalanceNotificationSent;
+
+    @Column(name = "last_servers_notification_sent")
+    private Boolean lastServersNotificationSent;
+
+    @Column(name = "last_known_servers_hash", length = 32)
+    private String lastKnownServersHash;
 }

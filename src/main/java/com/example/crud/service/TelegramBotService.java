@@ -1,5 +1,7 @@
 package com.example.crud.service;
 
+import com.example.crud.client.RuvdsApiClient;
+import com.example.crud.dto.RuvdsDTO;
 import com.example.crud.model.TelegramUser;
 import com.example.crud.repository.TelegramUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @RequiredArgsConstructor
 public class TelegramBotService extends TelegramLongPollingBot {
     private final TelegramUserRepository telegramUserRepository;
+    private final RuvdsApiClient ruvdsApiClient;
 
     @Value("${telegram.bot.username}")
     private String botUsername;
@@ -42,7 +48,6 @@ public class TelegramBotService extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
-
             try {
                 if (awaitingInputMap.containsKey(chatId)) {
                     handleUserInput(chatId, messageText);
@@ -78,8 +83,49 @@ public class TelegramBotService extends TelegramLongPollingBot {
             case "/setthreshold":
                 prepareForThresholdInput(chatId);
                 break;
+            case "/servers":
+                sendServersList(chatId);
+                break;
             default:
                 sendNotification(chatId, "❌ Неизвестная команда. /help - список команд");
+        }
+    }
+
+    private void sendServersList(Long chatId) {
+        TelegramUser user = telegramUserRepository.findById(chatId).orElse(null);
+        if (user == null || user.getRuvdsApiToken() == null) {
+            sendNotification(chatId, "❌ API токен не установлен. Используйте /settoken");
+            return;
+        }
+        try {
+            RuvdsDTO.ServersListResponse response = ruvdsApiClient.getServers("Bearer " + user.getRuvdsApiToken());
+            if (response == null || response.getServers() == null || response.getServers().isEmpty()) {
+                sendNotification(chatId, "ℹ️ У вас нет серверов в RuVDS");
+                return;
+            }
+            StringBuilder message = new StringBuilder("📋 Список ваших серверов:\n\n");
+            for (RuvdsDTO.ServerResponse server : response.getServers()) {
+                String ip = (server.getNetworkV4() != null && !server.getNetworkV4().isEmpty())
+                        ? server.getNetworkV4().get(0).getIpAddress()
+                        : "нет IP";
+                String paidTill = "не указана";
+                if (server.getPaidTill() != null) {
+                    paidTill = ZonedDateTime.parse(server.getPaidTill(), DateTimeFormatter.ISO_DATE_TIME)
+                            .withZoneSameInstant(ZoneId.systemDefault())
+                            .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                }
+                String comment = server.getUserComment() != null ? " (" + server.getUserComment() + ")" : "";
+                message.append(String.format(
+                        "Сервер #%d%s\nIP: %s\nОплата до: %s\n\n",
+                        server.getServerId(),
+                        comment,
+                        ip,
+                        paidTill
+                ));
+            }
+            sendNotification(chatId, message.toString().trim());
+        } catch (Exception e) {
+            sendNotification(chatId, "⚠️ Ошибка: " + e.getMessage());
         }
     }
 
@@ -123,7 +169,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 .orElseGet(() -> TelegramUser.builder()
                         .telegramChatId(chatId)
                         .notificationEnabled(true)
-                        .minBalanceThreshold(99999.0)
+                        .minBalanceThreshold(0.0)
                         .build());
 
         user.setRuvdsApiToken(token);
@@ -157,7 +203,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 "Используйте /settoken для начала работы\n\n" +
                 "Используйте кнопку Меню\n" +
                 "либо /help - список команд\n\n" +
-                "❗❗❗В рамках теста опрашивает api каждую минуту, порог баланса в 99999р, 999 дней до продления, выключите уведомления /disable если надоест\n" +
+                "❗❗❗В рамках теста опрашивает api каждую минуту\n" +
                 "Исходный код GitHub:\n" +
                 "https://github.com/antonczerkas/CRUD";
         sendNotification(chatId, message);
@@ -167,9 +213,10 @@ public class TelegramBotService extends TelegramLongPollingBot {
         String message = "📋 Список команд:\n\n" +
                 "/settoken - установить API токен RuVDS\n" +
                 "/setthreshold - установить минимальный баланс\n" +
+                "/status - текущие настройки\n" +
+                "/servers - список серверов\n" +
                 "/enable - включить уведомления\n" +
                 "/disable - выключить уведомления\n" +
-                "/status - текущие настройки\n" +
                 "/help - список команд";
         sendNotification(chatId, message);
     }
@@ -199,7 +246,7 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 .orElseGet(() -> TelegramUser.builder()
                         .telegramChatId(chatId)
                         .notificationEnabled(enable)
-                        .minBalanceThreshold(99999.0)
+                        .minBalanceThreshold(0.0)
                         .build());
 
         user.setNotificationEnabled(enable);

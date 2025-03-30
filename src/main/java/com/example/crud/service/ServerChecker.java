@@ -2,32 +2,47 @@ package com.example.crud.service;
 
 import com.example.crud.dto.RuvdsDTO;
 import com.example.crud.model.TelegramUser;
+import com.example.crud.repository.TelegramUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class ServerChecker {
     private final TelegramBotService telegramBot;
+    private final TelegramUserRepository telegramUserRepository;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
-    public static final int DAYS_BEFORE_EXPIRE = 999;
+    public static final int DAYS_BEFORE_EXPIRE = 2;
 
     public void checkServers(TelegramUser user, List<RuvdsDTO.ServerResponse> servers) {
-        List<String> expiringServers = new ArrayList<>();
-        for (RuvdsDTO.ServerResponse server : servers) {
-            if (shouldNotifyAboutServer(server)) {
-                expiringServers.add(formatServerInfo(server));
-            }
-        }
+        List<String> expiringServers = servers.stream()
+                .filter(this::shouldNotifyAboutServer)
+                .map(this::formatServerInfo)
+                .collect(Collectors.toList());
         if (!expiringServers.isEmpty()) {
-            sendNotification(user, expiringServers);
+            String serversHash = generateServersHash(expiringServers);
+            boolean shouldSendNotification = !serversHash.equals(user.getLastKnownServersHash()) ||
+                    !user.getLastServersNotificationSent();
+            if (shouldSendNotification) {
+                sendNotification(user, expiringServers);
+                user.setLastServersNotificationSent(true);
+                user.setLastKnownServersHash(serversHash);
+            }
+        } else {
+            user.setLastServersNotificationSent(false);
+            user.setLastKnownServersHash(null);
         }
+        telegramUserRepository.save(user);
+    }
+
+    private String generateServersHash(List<String> serversInfo) {
+        return String.valueOf(serversInfo.hashCode());
     }
 
     private boolean shouldNotifyAboutServer(RuvdsDTO.ServerResponse server) {

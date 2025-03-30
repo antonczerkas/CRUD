@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/changesets/initial-schema.yml
   - include:
       file: db/changelog/changesets/add_ruvds_bot_data.yml
+  - include:
+      file: db/changelog/changesets/add_smart_notification.yml

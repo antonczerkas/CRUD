@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005
+      author: SadWalther
+      changes:
+        - addColumn:
+            tableName: telegram-users
+            columns:
+              - column:
+                  name: last_known_balance
+                  type: DOUBLE PRECISION
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_balance_notification_sent
+                  type: BOOLEAN
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_servers_notification_sent
+                  type: BOOLEAN
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_known_servers_hash
+                  type: VARCHAR(32)
+                  constraints:
+                    nullable: true
