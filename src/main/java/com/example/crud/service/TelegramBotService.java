@@ -104,25 +104,43 @@ public class TelegramBotService extends TelegramLongPollingBot {
                 return;
             }
             StringBuilder message = new StringBuilder("📋 Список ваших серверов:\n\n");
+            ZonedDateTime now = ZonedDateTime.now();
             for (RuvdsDTO.ServerResponse server : response.getServers()) {
                 String ip = (server.getNetworkV4() != null && !server.getNetworkV4().isEmpty())
                         ? server.getNetworkV4().get(0).getIpAddress()
                         : "нет IP";
                 String paidTill = "не указана";
+                String paymentEmoji = "";
                 if (server.getPaidTill() != null) {
-                    paidTill = ZonedDateTime.parse(server.getPaidTill(), DateTimeFormatter.ISO_DATE_TIME)
-                            .withZoneSameInstant(ZoneId.systemDefault())
-                            .format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                    ZonedDateTime paidTillDate = ZonedDateTime.parse(server.getPaidTill(), DateTimeFormatter.ISO_DATE_TIME)
+                            .withZoneSameInstant(ZoneId.systemDefault());
+                    paidTill = paidTillDate.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+                    long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(now, paidTillDate);
+                    if (daysBetween < 0) {
+                        paymentEmoji = "⏰ ";
+                    } else if (daysBetween < 14) {
+                        paymentEmoji = "🔴 ";
+                    } else if (daysBetween < 30) {
+                        paymentEmoji = "🟡 ";
+                    } else {
+                        paymentEmoji = "🟢 ";
+                    }
                 }
                 String comment = server.getUserComment() != null ? " (" + server.getUserComment() + ")" : "";
                 message.append(String.format(
-                        "Сервер #%d%s\nIP: %s\nОплата до: %s\n\n",
+                        "Сервер #%d%s\nIP: %s\n%sОплата до: %s\n\n",
                         server.getServerId(),
                         comment,
                         ip,
+                        paymentEmoji,
                         paidTill
                 ));
             }
+            message.append("\n🔴 - если осталось меньше 14 дней\n")
+                    .append("🟡 - если осталось меньше 30 дней\n")
+                    .append("🟢 - если осталось 30 дней и более\n")
+                    .append("⏰ - если срок оплаты истёк");
+
             sendNotification(chatId, message.toString().trim());
         } catch (Exception e) {
             sendNotification(chatId, "⚠️ Ошибка: " + e.getMessage());

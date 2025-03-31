@@ -18,7 +18,7 @@ public class RuvdsService {
     private final BalanceChecker balanceChecker;
     private final ServerChecker serverChecker;
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 3600000)
     public void checkNotifications() {
         List<TelegramUser> users = telegramUserRepository.findAllByNotificationEnabled(true);
         for (TelegramUser user : users) {
