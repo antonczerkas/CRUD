@@ -66,7 +66,11 @@ jobs:
             echo SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} >> .env
             echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
             
-            docker-compose down
-            docker-compose pull
-            docker-compose up --force-recreate -d
+            docker-compose stop ruvds_bot || true
+            docker-compose rm -f ruvds_bot || true
+            
+            docker-compose up -d ruvds_bot_bd
+            
+            docker-compose up -d --force-recreate --no-deps ruvds_bot
+            
             docker image prune -f
