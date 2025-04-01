@@ -66,6 +66,8 @@ jobs:
             echo SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} >> .env
             echo TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }} >> .env
             
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/crud:latest
+            
             docker-compose stop app || true
             docker-compose rm -f app || true
             
