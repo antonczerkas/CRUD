@@ -4,7 +4,6 @@ import com.example.crud.client.RuvdsApiClient;
 import com.example.crud.model.TelegramUser;
 import com.example.crud.repository.TelegramUserRepository;
 import com.example.crud.service.command.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -19,7 +18,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
 public class TelegramBotService extends TelegramLongPollingBot {
     public final TelegramUserRepository telegramUserRepository;
     public final RuvdsApiClient ruvdsApiClient;

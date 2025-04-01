@@ -17,6 +17,7 @@ public class HelpCommandStrategy implements CommandStrategy {
                 "/setthreshold - установить минимальный баланс\n" +
                 "/status - текущие настройки\n" +
                 "/servers - список серверов\n" +
+                "/balance - баланс на аккаунте\n" +
                 "/enable - включить уведомления\n" +
                 "/disable - выключить уведомления\n" +
                 "/help - список команд";
