@@ -1,8 +1,15 @@
 package com.example.crud.service.command;
 
 import com.example.crud.service.TelegramBotService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HelpCommandStrategy implements CommandStrategy {
+    @Override
+    public String getCommand() {
+        return "/help";
+    }
+
     @Override
     public void execute(Long chatId, TelegramBotService botService) {
         String message = "📋 Список команд:\n\n" +

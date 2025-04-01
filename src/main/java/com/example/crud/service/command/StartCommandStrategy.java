@@ -1,8 +1,15 @@
 package com.example.crud.service.command;
 
 import com.example.crud.service.TelegramBotService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StartCommandStrategy implements CommandStrategy {
+    @Override
+    public String getCommand() {
+        return "/start";
+    }
+
     @Override
     public void execute(Long chatId, TelegramBotService botService) {
         String message = "Добро пожаловать! Это бот, который следит за балансом и сообщает, когда нужно продлевать сервера RuVDS\n\n" +

@@ -3,13 +3,20 @@ package com.example.crud.service.command;
 import com.example.crud.dto.RuvdsDTO;
 import com.example.crud.model.TelegramUser;
 import com.example.crud.service.TelegramBotService;
+import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+@Component
 public class ServersCommandStrategy implements CommandStrategy {
+    @Override
+    public String getCommand() {
+        return "/servers";
+    }
+
     @Override
     public void execute(Long chatId, TelegramBotService botService) {
         Optional<TelegramUser> userOpt = botService.telegramUserRepository.findById(chatId);

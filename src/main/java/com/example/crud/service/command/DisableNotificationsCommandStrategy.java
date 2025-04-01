@@ -5,15 +5,15 @@ import com.example.crud.service.TelegramBotService;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EnableNotificationsCommandStrategy implements CommandStrategy {
+public class DisableNotificationsCommandStrategy implements CommandStrategy {
     @Override
     public String getCommand() {
-        return "/enable";
+        return "/disable";
     }
 
     @Override
     public void execute(Long chatId, TelegramBotService botService) {
-        setNotificationStatus(chatId, botService, true);
+        setNotificationStatus(chatId, botService, false);
     }
 
     void setNotificationStatus(Long chatId, TelegramBotService botService, boolean enable) {

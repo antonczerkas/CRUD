@@ -12,25 +12,32 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class TelegramBotService extends TelegramLongPollingBot {
     public final TelegramUserRepository telegramUserRepository;
     public final RuvdsApiClient ruvdsApiClient;
+    private final Map<String, CommandStrategy> commandStrategies;
 
-    private final Map<String, CommandStrategy> commandStrategies = Map.of(
-            "/start", new StartCommandStrategy(),
-            "/help", new HelpCommandStrategy(),
-            "/status", new StatusCommandStrategy(),
-            "/enable", new EnableNotificationsCommandStrategy(true),
-            "/disable", new EnableNotificationsCommandStrategy(false),
-            "/settoken", new SetTokenCommandStrategy(),
-            "/setthreshold", new SetThresholdCommandStrategy(),
-            "/servers", new ServersCommandStrategy()
-    );
+    public TelegramBotService(
+            TelegramUserRepository telegramUserRepository,
+            RuvdsApiClient ruvdsApiClient,
+            List<CommandStrategy> strategies
+    ) {
+        this.telegramUserRepository = telegramUserRepository;
+        this.ruvdsApiClient = ruvdsApiClient;
+        this.commandStrategies = strategies.stream()
+                .collect(Collectors.toMap(
+                        CommandStrategy::getCommand,
+                        Function.identity()
+                ));
+    }
 
     @Value("${telegram.bot.username}")
     private String botUsername;
