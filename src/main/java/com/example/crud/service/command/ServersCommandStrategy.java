@@ -66,7 +66,7 @@ public class ServersCommandStrategy implements CommandStrategy {
             message.append("\n🔴 - если осталось меньше 14 дней\n")
                     .append("🟡 - если осталось меньше 30 дней\n")
                     .append("🟢 - если осталось 30 дней и более\n")
-                    .append("⏰ - если срок оплаты истёк");
+                    .append("⏰ - если срок оплаты истёк\n/help");
 
             botService.sendNotification(chatId, message.toString().trim());
         } catch (Exception e) {

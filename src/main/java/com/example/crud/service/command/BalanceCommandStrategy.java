@@ -23,7 +23,7 @@ public class BalanceCommandStrategy implements CommandStrategy {
         }
         try {
             RuvdsDTO.BalanceResponse response = botService.ruvdsApiClient.getBalance("Bearer " + userOpt.get().getRuvdsApiToken());
-            String message = new String("💰 Ваш баланс состовляет: " + response.getAmount() + " руб.");
+            String message = new String("💰 Ваш баланс состовляет: " + response.getAmount() + " руб.\n/help");
             botService.sendNotification(chatId, message);
         } catch (Exception e) {
             botService.sendNotification(chatId, "⚠️ Ошибка: " + e.getMessage());
