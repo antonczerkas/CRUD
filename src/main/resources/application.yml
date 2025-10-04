@@ -12,7 +12,7 @@ spring:
     show-sql: false
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yml
-    enabled: true
+    enabled: false
 telegram:
   bot:
     username: RuVDSNotifierBot
