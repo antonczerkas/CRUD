@@ -74,4 +74,5 @@ jobs:
             docker compose rm -f app || true
             docker compose up -d db
             docker compose up -d --force-recreate --no-deps app
+            
             docker image prune -f
