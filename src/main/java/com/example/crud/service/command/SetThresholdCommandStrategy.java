@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SetThresholdCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/setthreshold";

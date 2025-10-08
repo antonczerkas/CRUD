@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class TelegramBotService extends TelegramLongPollingBot {
+
     public final TelegramUserRepository telegramUserRepository;
     public final RuvdsApiClient ruvdsApiClient;
     private final Map<String, CommandStrategy> commandStrategies;

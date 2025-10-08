@@ -13,6 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RuvdsService {
+
     private final TelegramUserRepository telegramUserRepository;
     private final RuvdsApiClient ruvdsApiClient;
     private final BalanceChecker balanceChecker;

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Component
 public class BalanceCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/balance";

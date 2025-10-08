@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HelpCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/help";

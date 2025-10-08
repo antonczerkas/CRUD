@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DisableNotificationsCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/disable";

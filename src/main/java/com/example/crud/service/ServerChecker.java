@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ServerChecker {
+
     private final TelegramBotService telegramBot;
     private final TelegramUserRepository telegramUserRepository;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;

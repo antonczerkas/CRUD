@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class BalanceChecker {
+
     private final TelegramBotService telegramBot;
     private final TelegramUserRepository telegramUserRepository;
 

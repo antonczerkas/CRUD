@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(name = "ruvds-api", url = "https://api.ruvds.com/v2")
 public interface RuvdsApiClient {
+
     @GetMapping("/balance")
     RuvdsDTO.BalanceResponse getBalance(@RequestHeader("Authorization") String authToken);
 

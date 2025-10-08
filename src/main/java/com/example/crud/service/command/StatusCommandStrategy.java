@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Component
 public class StatusCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/status";

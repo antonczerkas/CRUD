@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @Component
 public class ServersCommandStrategy implements CommandStrategy {
+
     @Override
     public String getCommand() {
         return "/servers";
